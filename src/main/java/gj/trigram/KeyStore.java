@@ -1,6 +1,8 @@
 package gj.trigram;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,16 +37,31 @@ public class KeyStore {
      * @return
      * @throws IOException
      */
-    private String read(InputStream in) throws IOException {
-        BufferedReader inputStream = new BufferedReader(new InputStreamReader(in));
-        StringBuilder builder = new StringBuilder();
-        String record = inputStream.readLine();
-        while (record != null) {
-            builder.append(record + " ");
-            record = inputStream.readLine();
+    public static String read(File file) throws IOException {
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            BufferedReader inputStream = new BufferedReader(new InputStreamReader(fis));
+            StringBuilder builder = new StringBuilder();
+            String record = inputStream.readLine();
+            while (record != null) {
+                builder.append(record + "\n");
+                record = inputStream.readLine();
+            }
+            return builder.toString();
+        } finally {
+            closeStream(fis);
         }
-        inputStream.close();
-        return builder.toString();
+    }
+
+    private static void closeStream(InputStream is) {
+        if (is != null) {
+            try {
+                is.close();
+            } catch (IOException e) {
+                throw new RuntimeException("WARNING! Could not close file...", e);
+            }
+        }
     }
 
     /**
@@ -57,8 +74,8 @@ public class KeyStore {
      * @param in
      * @throws IOException
      */
-    public void addKeys(InputStream in) throws IOException {
-        String[] words = read(in).split(" ");
+    public void addKeys(File file) throws IOException {
+        String[] words = read(file).replaceAll("\n", " ").split(" ");
         List<String> wordList = new ArrayList<String>();
         for (String string : words) {
             if (string.trim().length() > 0)
@@ -115,6 +132,11 @@ public class KeyStore {
     public List<String> getList(List<String> key) {
         String keyValue = Joiner.on("\0").useForNull("").join(key);
         return trigram.get(keyValue);
+    }
+
+    public boolean doesContain(List<String> key) {
+        String keyValue = Joiner.on("\0").useForNull("").join(key);
+        return trigram.containsKey(keyValue);
     }
 
     @Override
