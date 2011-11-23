@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -15,7 +14,7 @@ public class KeyStoreTest {
     @Test
     public void testAddKeys() throws IOException {
         KeyStore store = new KeyStore();
-        store.addKeys(new File(KeyStoreTest.class.getResource("simple").getFile()));
+        store.addKeys(Trigram.read(KeyStoreTest.class.getResourceAsStream("simple")));
         assertThat(store.getSize(), equalTo(8));
         assertThat(store.getList(Arrays.asList("a","b")), equalTo(Arrays.asList("c")));
         assertThat(store.getList(Arrays.asList("b","c")), equalTo(Arrays.asList("d")));
@@ -30,7 +29,7 @@ public class KeyStoreTest {
     @Test
     public void testAddMultiKeys() throws IOException {
         KeyStore store = new KeyStore();
-        store.addKeys(new File(KeyStoreTest.class.getResource("complex").getFile()));
+        store.addKeys(Trigram.read(KeyStoreTest.class.getResourceAsStream("complex")));
         assertThat(store.getSize(), equalTo(3));
         assertThat(store.getList(Arrays.asList("a","b")), equalTo(Arrays.asList("c", "d")));
         assertThat(store.getList(Arrays.asList("b","c")), equalTo(Arrays.asList("a")));
@@ -40,14 +39,14 @@ public class KeyStoreTest {
     @Test
     public void testGetRoot() throws IOException {
         KeyStore store = new KeyStore();
-        store.addKeys(new File(KeyStoreTest.class.getResource("simple").getFile()));
+        store.addKeys(Trigram.read(KeyStoreTest.class.getResourceAsStream("simple")));
         assertThat(store.getRoot(), equalTo(Arrays.asList("a","b")));
     }
 
     @Test
     public void testClear() throws IOException {
         KeyStore store = new KeyStore();
-        store.addKeys(new File(KeyStoreTest.class.getResource("simple").getFile()));
+        store.addKeys(Trigram.read(KeyStoreTest.class.getResourceAsStream("simple")));
         assertThat(store.getSize(), equalTo(8));
         store.clear();
         assertThat(store.getSize(), equalTo(0));
@@ -56,7 +55,7 @@ public class KeyStoreTest {
     @Test
     public void testDoesContain() throws IOException {
         KeyStore store = new KeyStore();
-        store.addKeys(new File(KeyStoreTest.class.getResource("simple").getFile()));
+        store.addKeys(Trigram.read(KeyStoreTest.class.getResourceAsStream("simple")));
         assertTrue(store.doesContain(Arrays.asList("a","b")));
     }
     

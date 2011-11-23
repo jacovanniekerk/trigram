@@ -1,11 +1,6 @@
 package gj.trigram;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -30,41 +25,6 @@ public class KeyStore {
     }
 
     /**
-     * Given an InputStream, this reads the file into memory, ignoring new
-     * lines.
-     * 
-     * @param in
-     * @return
-     * @throws IOException
-     */
-    public static String read(File file) throws IOException {
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(file);
-            BufferedReader inputStream = new BufferedReader(new InputStreamReader(fis));
-            StringBuilder builder = new StringBuilder();
-            String record = inputStream.readLine();
-            while (record != null) {
-                builder.append(record + "\n");
-                record = inputStream.readLine();
-            }
-            return builder.toString();
-        } finally {
-            closeStream(fis);
-        }
-    }
-
-    private static void closeStream(InputStream is) {
-        if (is != null) {
-            try {
-                is.close();
-            } catch (IOException e) {
-                throw new RuntimeException("WARNING! Could not close file...", e);
-            }
-        }
-    }
-
-    /**
      * Creates a map of keys and accepted values for each key.
      * 
      * @TODO This is actually terrible on memory and needs to be refactored so
@@ -74,8 +34,8 @@ public class KeyStore {
      * @param in
      * @throws IOException
      */
-    public void addKeys(File file) throws IOException {
-        String[] words = read(file).replaceAll("\n", " ").split(" ");
+    public void addKeys(String text) throws IOException {
+        String[] words = text.replaceAll("\n", " ").split(" ");
         List<String> wordList = new ArrayList<String>();
         for (String string : words) {
             if (string.trim().length() > 0)
