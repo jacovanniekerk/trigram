@@ -1,21 +1,73 @@
-A fox once saw a crow fly over with a piece of cheese in her beak.  "I want 
-that cheese," thought the fox.  When the crow landed upon a branch of a tree, 
-the fox sat down beneath the tree and called, "Good day, Mistress Crow! How 
-well you are looking! How bright your eyes! How glossy your feathers!"
-The crow was pleased.  She loved to be flattered. "I am sure your voice is 
-even more beautiful than your feathers," said the fox.  "Won't you sing a song 
-for me, O queen of the birds?" The Crow was so pleased she could hardly sit 
-still. She lifted her head high, closed her eyes and opened her beak to sing: 
-CAW-CAW-C-CAW-W-W!  The cheese fell to the ground, right in front of the fox. 
-"Thank you Mistress Crow," he said to the unhappy bird. "In exchange for your 
-cheese, I will give you a piece of advise: Never trust a flatterer!"
+Evolutionary algorithms are stochastic, population-based search algorithms. Each EA
+therefore maintains a population of candidate solutions. The first step in applying
+an EA to solve an optimization problem is to generate an initial population. The
+standard way of generating an initial population is to assign a random value from the
+allowed domain to each of the genes of each chromosome. The goal of random selection
+is to ensure that the initial population is a uniform representation of the entire search
+space. If regions of the search space are not covered by the initial population, chances
+are that those parts will be neglected by the search process.
 
-Once upon a time there was a fox strolling through the woods. He came upon a 
-grape orchard.  There he found a bunch of beautiful grapes hanging from a high 
-branch. "Boy those sure would be tasty," the fox thought to himself. He backed 
-up and took a running start, and jumped. He did not get high enough. He went 
-back to his starting spot and tried again. He almost got high enough this time, 
-but not quite. He tried and tried, again and again, but just couldn't get high
-enough to grab the grapes. Finally, the fox gave up. As he walked away, he 
-put his nose in the air and said: "I am sure those grapes are sour."
- 
+
+Selection operators are characterized by their selective pressure, also referred to as the
+takeover time, which relates to the time it requires to produce a uniform population. It
+is defined as the speed at which the best solution will occupy the entire population by
+repeated application of the selection operator alone [38, 320]. An operator with a high
+selective pressure decreases diversity in the population more rapidly than operators
+with a low selective pressure, which may lead to premature convergence to suboptimal
+solutions. A high selective pressure limits the exploration abilities of the population.
+
+
+Reproduction is the process of producing offspring from selected parents by apply-
+ing crossover and/or mutation operators. Crossover is the process of creating one or
+more new individuals through the combination of genetic material randomly selected
+from two or more parents. If selection focuses on the most-fit individuals, the selec-
+tion pressure may cause premature convergence due to reduced diversity of the new
+populations.
+Mutation is the process of randomly changing the values of genes in a chromosome.
+The main objective of mutation is to introduce new genetic material into the popula-
+tion, thereby increasing genetic diversity. Mutation should be applied with care not to
+distort the good genetic material in highly fit individuals. For this reason, mutation
+is usually applied at a low probability. Alternatively, the mutation probability can be
+made proportional to the fitness of individuals: the less fit the individual, the more
+it is mutated.
+
+
+There are two types of modeling approaches for studying natural phenomena: the top-down
+approach (involving a complicated, centralized controller that makes decisions based on access to all
+aspects of the global state), and the bottom-up approach, which is based on parallel, distributed
+networks of relatively simple, low-level agents that simultaneously interact with each other. Most
+traditional artificial intelligence (AI) research focuses on the former approach.
+However, to obtain the most adaptive and complex behaviors from intelligent applications that
+assist humans, such behaviors might be designed using the bottom-up approach. It is difficult, or
+even impossible, to model lifelike behaviors using the traditional AI approach. Usually, complex
+behaviors such as schooling of fishes, detection of unknown attack patterns, and evolution of
+economic markets can be modeled as the local interaction of agents whose decisions are based on
+the information about, and that directly affect, only their own local environment. There are many
+complex applications, not only in the robotics, computer graphics, and engineering fields, but also in
+the educational and artistic fields. It is too tedious and sometimes impossible to design such
+applications using the top-down approach.
+
+
+In another enclosure we see Krom pulling a rubber tire with water in it, but he
+doesn’t seem to understand that he should first release the tire from the other six
+tires that hang in front of it. Then, after 10 min when Krom gives up, and walks
+away, Jakie approaches the tires. He removes the six tires one by one, grabs the tire
+Krom liked, and brings it to him, carefully, without losing water.
+It can also be observed among chimpanzees that a dominant individual shares
+food with a lower ranking individual, one he could easily rebuff.
+
+
+The computational synthesis of patterns and behaviours has received a great deal of
+attention over the past years. The arts’ industry, including behavioural animation, movie
+making, electronic games and several others, need approaches capable of synthesising, in
+a fast and parsimonious way, patterns and behaviours found in nature. For instance,
+traditionally, behavioural synthesis would involve writing down a script file that uniquely
+determines the sequence of steps and actions of a certain virtual agent.
+Some new fields of research have appeared within fundamental disciplines, like biology
+and neuroscience, such as computational neuroethology (Cliff 1998) and synthetic ethology
+(MacLennan 2002), aimed at synthesising complex natural behaviours. These new areas of
+research have greatly benefited from the novel investigation tools, including artificial life,
+that have the goal of complementing and/or supplementing traditional synthetic methods,
+like scripting the behaviour of one or more agents. The outcome is, invariably, a more
+realistic synthetic process of natural phenomena with a reduced computational cost and that
+broadens our perspective of life-as-we-know-it to life-as-it-could-be.
