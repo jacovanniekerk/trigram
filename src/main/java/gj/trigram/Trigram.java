@@ -1,27 +1,24 @@
 package gj.trigram;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import com.google.common.base.Joiner;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.base.Joiner;
-
 public class Trigram {
+
+    private static final int LINE_LENGTH = 80;
+    private static final int MAX_WORDS = 100;
 
     public static String read(InputStream is) throws IOException {
         BufferedReader inputStream = new BufferedReader(new InputStreamReader(is));
         StringBuilder builder = new StringBuilder();
         String record = inputStream.readLine();
         while (record != null) {
-            builder.append(record + "\n");
+            builder.append(record).append("\n");
             record = inputStream.readLine();
         }
         return builder.toString();
@@ -37,29 +34,40 @@ public class Trigram {
         }
     }
 
-    public void generate(File file) {
-        FileInputStream fis = null;
+    public void generate(List<String> seed, File... file) {
+        List<FileInputStream> fis = new ArrayList<>();
         try {
-            fis = new FileInputStream(file);
-            generate(fis);
+            for (File f:  file) {
+                fis.add(new FileInputStream(f));
+            }
+            generate(seed, fis.toArray(new FileInputStream[0]));
         } catch (FileNotFoundException e) {
             throw new RuntimeException("WARNING! Could not find the file for the keys...", e);
         } finally {
-            closeStream(fis);
+            for (FileInputStream f:  fis) {
+                closeStream(f);
+            }
         }
     }
 
-    public void generate(InputStream is) {
+    public void generate(List<String> seed, InputStream... is) {
         try {
             KeyStore store = new KeyStore();
-            String text = read(is);
+            StringBuilder b = new StringBuilder();
+            for (InputStream i: is) {
+                b.append(read(i));
+            }
+            String text = b.toString();
             store.addKeys(text);
+            System.out.println(store);
 
-            System.out.println("Original\n========");
-            System.out.println(text);
+            System.out.println();
+            //System.out.println("Original\n========");
+            //System.out.println(text);
 
             System.out.println("Trigram\n=======");
-            System.out.println(Joiner.on("\n").join(wrapText(new Generator(store).generateText(), 80)));
+            System.out.println(Joiner.on("\n").join(wrapText(
+                    new Generator(store).generateText(MAX_WORDS, seed), LINE_LENGTH)));
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException("WARNING! Could not find the file for the keys...", e);
@@ -74,17 +82,17 @@ public class Trigram {
         }
 
         if (len <= 0 || text.length() <= len) {
-            return Arrays.asList(text);
+            return Collections.singletonList(text);
         }
 
         char[] chars = text.toCharArray();
-        List<String> lines = new ArrayList<String>();
-        StringBuffer line = new StringBuffer();
-        StringBuffer word = new StringBuffer();
+        List<String> lines = new ArrayList<>();
+        StringBuilder line = new StringBuilder();
+        StringBuilder word = new StringBuilder();
 
-        for (int i = 0; i < chars.length; i++) {
-            word.append(chars[i]);
-            if (chars[i] == ' ') {
+        for (char aChar : chars) {
+            word.append(aChar);
+            if (aChar == ' ') {
                 if ((line.length() + word.length()) > len) {
                     lines.add(line.toString());
                     line.delete(0, line.length());
@@ -116,9 +124,22 @@ public class Trigram {
         if (args.length < 1) {
             System.out.println("Usage: java -jar trigram-<version>.jar <filename>\n");
             System.out.println("Just to be nice, I'll give you an example from a built-in file:\n");
-            new Trigram().generate(Trigram.class.getResourceAsStream("twostories"));
+
+            new Trigram().generate(Arrays.asList("In", "a"), Trigram.class.getResourceAsStream("one"));
+
+//            new Trigram().generate(Arrays.asList("In", "a"),
+//                    Trigram.class.getResourceAsStream("fellowship"),
+//                    Trigram.class.getResourceAsStream("thehobbit"));
+
+//            new Trigram().generate(Arrays.asList("Once", "upon"),
+//                    Trigram.class.getResourceAsStream("slyfox"),
+//                    Trigram.class.getResourceAsStream("3littlepigs"));
+
+//            new Trigram().generate(Arrays.asList("This", "is"),
+//                    Trigram.class.getResourceAsStream("one"),
+//                    Trigram.class.getResourceAsStream("two"));
         } else {
-            new Trigram().generate(new File(args[0]));
+            new Trigram().generate(Arrays.asList("Once", "upon"), new File(args[0]));
         }
     }
 

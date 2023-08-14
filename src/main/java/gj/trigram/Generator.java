@@ -13,18 +13,27 @@ public class Generator {
         this.store = store;
     }
     
-    public String generateText() {
+    public String generateText(int moreOrLessMaxWords, List<String> root) {
         StringBuilder text = new StringBuilder();
-        List<String> last = new ArrayList<String>(); 
-        last.addAll(store.getRoot());
-        text.append(Joiner.on(" ").join(last) + " ");
+
+        if (root == null || root.isEmpty()) {
+            root = store.getRoot();
+        }
+
+        List<String> last = new ArrayList<String>(root);
+        text.append(Joiner.on(" ").join(last)).append(" ");
+        int cnt = 0;
         while (store.doesContain(last)) {
             List<String> options = store.getList(last);
             int which = (int)(Math.random() * options.size());
             String word = options.get(which);
-            text.append(word + " ");
+            text.append(word).append(" ");
+            cnt++;
             last.remove(0);
             last.add(word);
+            if (cnt > moreOrLessMaxWords && word.trim().endsWith(".")) {
+                break;
+            }
         }
         return text.toString();
     }
